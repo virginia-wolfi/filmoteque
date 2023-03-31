@@ -1,0 +1,41 @@
+version: '3'
+services:
+  flask-app:
+    build: ./api
+    container_name: backend-flask
+    environment:
+      - FLASK_ENV=development
+      - PYTHONUNBUFFERED=True
+      - DATABASE_URL=postgresql://postgres:mypassword@db:5432/docker_filmoteque
+    restart: on-failure
+    volumes:
+      - ./api:/api
+    expose:
+      - 5000
+    command: gunicorn main:"create_app()" -b 0.0.0.0:5000 --reload
+    depends_on:
+      - db
+  db:
+    image: postgres:latest
+    volumes:
+      - ./pg_db:/var/lib/postgresql@14/data/
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=mypassword
+      - POSTGRES_DB=docker_filmoteque
+  pgadmin:
+    image: dpage/pgadmin4
+    depends_on:
+      - db
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=myemail@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=mypassword
+      - PGADMIN_LISTEN_ADDRESS=0.0.0.0
+      - PGADMIN_LISTEN_PORT=5555
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+    depends_on:
+      - flask-app
+      - pgadmin

@@ -1,0 +1,5 @@
+.idea
+/.idea/
+/pg_db/
+__pycache__
+.pytest_cache

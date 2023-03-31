@@ -1,0 +1,121 @@
+[March 31, 2023 14:03:32 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:32 EEST] INFO | movies >>> User added movie <Movies 1> >>> User: <Users 1>
+[March 31, 2023 14:03:32 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:32 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:32 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:32 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:32 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:32 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:32 EEST] INFO | movies >>> User added movie <Movies 2> >>> User: <Users 1>
+[March 31, 2023 14:03:32 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634790af0>
+[March 31, 2023 14:03:32 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
+[March 31, 2023 14:03:32 EEST] INFO | movies >>> User added poster to movie <Movies 2> >>> User: <Users 3>
+[March 31, 2023 14:03:32 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:32 EEST] INFO | movies >>> User added poster to movie <Movies 2> >>> User: <Users 1>
+[March 31, 2023 14:03:33 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:33 EEST] INFO | movies >>> User added movie <Movies 3> >>> User: <Users 1>
+[March 31, 2023 14:03:33 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634791f60>
+[March 31, 2023 14:03:33 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
+[March 31, 2023 14:03:33 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:33 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:33 EEST] INFO | movies >>> User added movie <Movies 4> >>> User: <Users 1>
+[March 31, 2023 14:03:33 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634793ee0>
+[March 31, 2023 14:03:33 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
+[March 31, 2023 14:03:33 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:33 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:33 EEST] INFO | movies >>> User added movie <Movies 5> >>> User: <Users 1>
+[March 31, 2023 14:03:33 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634790a90>
+[March 31, 2023 14:03:33 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
+[March 31, 2023 14:03:33 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:34 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:34 EEST] INFO | movies >>> User added movie <Movies 6> >>> User: <Users 1>
+[March 31, 2023 14:03:34 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634308610>
+[March 31, 2023 14:03:34 EEST] INFO | auth >>> User logged in >>> User: <Users 2>
+[March 31, 2023 14:03:34 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:34 EEST] INFO | movies >>> User added movie <Movies 7> >>> User: <Users 1>
+[March 31, 2023 14:03:34 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634792ec0>
+[March 31, 2023 14:03:34 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
+[March 31, 2023 14:03:34 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:34 EEST] INFO | movies >>> User added movie <Movies 8> >>> User: <Users 1>
+[March 31, 2023 14:03:34 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f563474e950>
+[March 31, 2023 14:03:34 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:34 EEST] INFO | movies >>> User deleted poster from movie <Movies 8> >>> User: <Users 1>
+[March 31, 2023 14:03:34 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:34 EEST] INFO | movies >>> User added movie <Movies 9> >>> User: <Users 1>
+[March 31, 2023 14:03:34 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f56343090c0>
+[March 31, 2023 14:03:34 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
+[March 31, 2023 14:03:34 EEST] INFO | movies >>> User deleted poster from movie <Movies 9> >>> User: <Users 3>
+[March 31, 2023 14:03:35 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:35 EEST] INFO | movies >>> User added movie <Movies 10> >>> User: <Users 1>
+[March 31, 2023 14:03:35 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f563430a980>
+[March 31, 2023 14:03:35 EEST] INFO | auth >>> User logged in >>> User: <Users 2>
+[March 31, 2023 14:03:35 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:35 EEST] INFO | movies >>> User added movie <Movies 11> >>> User: <Users 1>
+[March 31, 2023 14:03:35 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634792bf0>
+[March 31, 2023 14:03:35 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:35 EEST] INFO | movies >>> User added movie <Movies 12> >>> User: <Users 1>
+[March 31, 2023 14:03:35 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634792170>
+[March 31, 2023 14:03:35 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:35 EEST] INFO | movies >>> User deleted movie <Movies 12> >>> User: <Users 1>
+[March 31, 2023 14:03:35 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:35 EEST] INFO | movies >>> User added movie <Movies 13> >>> User: <Users 1>
+[March 31, 2023 14:03:35 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634324b80>
+[March 31, 2023 14:03:35 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
+[March 31, 2023 14:03:35 EEST] INFO | movies >>> User deleted movie <Movies 13> >>> User: <Users 3>
+[March 31, 2023 14:03:35 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:35 EEST] INFO | movies >>> User added movie <Movies 14> >>> User: <Users 1>
+[March 31, 2023 14:03:35 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f563430b970>
+[March 31, 2023 14:03:36 EEST] INFO | auth >>> User logged in >>> User: <Users 2>
+[March 31, 2023 14:03:36 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:36 EEST] INFO | movies >>> User added movie <Movies 15> >>> User: <Users 1>
+[March 31, 2023 14:03:36 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f56343260e0>
+[March 31, 2023 14:03:36 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:36 EEST] INFO | movies >>> User added movie <Movies 16> >>> User: <Users 1>
+[March 31, 2023 14:03:36 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634309630>
+[March 31, 2023 14:03:36 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:36 EEST] INFO | movies >>> User edited movie <Movies 16>: , <generator object MultiDict.values at 0x7f56347b4660> >>> User: <Users 1>
+[March 31, 2023 14:03:36 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:36 EEST] INFO | movies >>> User added movie <Movies 17> >>> User: <Users 1>
+[March 31, 2023 14:03:36 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634324b80>
+[March 31, 2023 14:03:36 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:36 EEST] INFO | movies >>> User added director Quentin >>> User: <Users 1>
+[March 31, 2023 14:03:36 EEST] INFO | movies >>> User edited movie <Movies 17>: {'director_id': 20}, <generator object MultiDict.values at 0x7f56347b4350> >>> User: <Users 1>
+[March 31, 2023 14:03:36 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:36 EEST] INFO | movies >>> User added movie <Movies 18> >>> User: <Users 1>
+[March 31, 2023 14:03:36 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634325db0>
+[March 31, 2023 14:03:36 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
+[March 31, 2023 14:03:36 EEST] INFO | movies >>> User edited movie <Movies 18>: {'title': 'Django unchained', 'director_id': 20},  >>> User: <Users 3>
+[March 31, 2023 14:03:36 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:36 EEST] INFO | movies >>> User added movie <Movies 19> >>> User: <Users 1>
+[March 31, 2023 14:03:36 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f563433a8f0>
+[March 31, 2023 14:03:37 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:37 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:37 EEST] INFO | movies >>> User added movie <Movies 20> >>> User: <Users 1>
+[March 31, 2023 14:03:37 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634327550>
+[March 31, 2023 14:03:37 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:37 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:37 EEST] INFO | movies >>> User added movie <Movies 21> >>> User: <Users 1>
+[March 31, 2023 14:03:37 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634339f00>
+[March 31, 2023 14:03:37 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:37 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:37 EEST] INFO | movies >>> User added movie <Movies 22> >>> User: <Users 1>
+[March 31, 2023 14:03:37 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f563433be50>
+[March 31, 2023 14:03:37 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
+[March 31, 2023 14:03:37 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:37 EEST] INFO | movies >>> User added movie <Movies 23> >>> User: <Users 1>
+[March 31, 2023 14:03:37 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634339420>
+[March 31, 2023 14:03:38 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
+[March 31, 2023 14:03:38 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:38 EEST] INFO | movies >>> User added movie <Movies 24> >>> User: <Users 1>
+[March 31, 2023 14:03:38 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f563433b040>
+[March 31, 2023 14:03:38 EEST] INFO | auth >>> User logged in >>> User: <Users 1>
+[March 31, 2023 14:03:38 EEST] INFO | movies >>> User added movie <Movies 25> >>> User: <Users 1>
+[March 31, 2023 14:03:38 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f56343269e0>
+[March 31, 2023 14:03:38 EEST] INFO | auth >>> User logged in >>> User: <Users 2>
+[March 31, 2023 14:03:38 EEST] INFO | auth >>> User created >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5634357c70>
+[March 31, 2023 14:03:38 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
+[March 31, 2023 14:03:39 EEST] INFO | auth >>> User logged in >>> User: <Users 4>
+[March 31, 2023 14:03:39 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
+[March 31, 2023 14:03:39 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5633f53580>
+[March 31, 2023 14:03:39 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
+[March 31, 2023 14:03:39 EEST] INFO | auth >>> User logged out >>> User: <flask_login.mixins.AnonymousUserMixin object at 0x7f5633f703a0>
