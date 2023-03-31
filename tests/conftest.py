@@ -1,9 +1,9 @@
 import pytest
-from filmoteque import create_app, db
-from filmoteque.insert_setup import *
-from filmoteque.models import Movies
+from api.filmoteque.insert_setup import *
+from api.filmoteque import Movies
 from pathlib import Path
-from sqlalchemy import delete
+from api.filmoteque import create_app
+from api.filmoteque.config import TestingConfig
 
 resources = Path(__file__).parent / "resources"
 
@@ -51,10 +51,7 @@ movies_genres_list = ({'genre_id': 6, 'movie_id': 1}, {'genre_id': 5, 'movie_id'
 
 @pytest.fixture(scope='module')
 def app():
-    app = create_app(database='postgresql+psycopg2://postgres:8066@localhost/film_collection_test')
-    app.config.update({
-        "TESTING": True,
-    })
+    app = create_app(object=TestingConfig())
     with app.app_context():
         db.drop_all()
         db.create_all()

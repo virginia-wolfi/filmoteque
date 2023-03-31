@@ -7,8 +7,6 @@ name = "pypi"
 flask = "*"
 flask-sqlalchemy = "*"
 psycopg2-binary = "*"
-flask-marshmallow = "*"
-marshmallow-sqlalchemy = "*"
 flask-restx = "*"
 validators = "*"
 flask-login = "*"
@@ -17,9 +15,10 @@ email-validator = "*"
 install = "*"
 setuptools = "*"
 python-dotenv = "*"
-pytest = "*"
+gunicorn = "*"
 
 [dev-packages]
+pytest = "*"
 
 [requires]
 python_version = "3.10"

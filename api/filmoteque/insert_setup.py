@@ -3,9 +3,8 @@ import os
 sys.path.append(os.getcwd())
 from werkzeug.security import generate_password_hash
 from sqlalchemy import insert
-from filmoteque.models import *
-from filmoteque.extentions import db
-from filmoteque import create_app
+from .models import *
+from .extentions import db
 import csv
 
 
@@ -88,12 +87,11 @@ def insert_movies_genres():
     db.session.commit()
 
 
-if __name__ == '__main__':
-    with create_app().app_context():
-        insert_roles()
-        insert_users()
-        insert_genres()
-        insert_directors()
-        insert_movies()
-        insert_movies_genres()
+def insert_all():
+    insert_roles()
+    insert_users()
+    insert_genres()
+    insert_directors()
+    insert_movies()
+    insert_movies_genres()
 

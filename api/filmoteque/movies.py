@@ -1,14 +1,13 @@
 from flask import jsonify, request, make_response, abort
 from flask_login import login_required, current_user
-from filmoteque.models import Movies, Genres, Directors, Users, movies_genres
-from filmoteque.extentions import db, allowed_file, api, extra
-from filmoteque.constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, HTTP_500_INTERNAL_SERVER_ERROR,\
+from .models import Movies, Genres, Directors, Users, movies_genres
+from .extentions import db, allowed_file, api, extra
+from .constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, HTTP_500_INTERNAL_SERVER_ERROR,\
      HTTP_403_FORBIDDEN, HTTP_400_BAD_REQUEST, HTTP_404_NOT_FOUND, HTTP_204_NO_CONTENT
 from sqlalchemy import insert, select, intersect,  text
 from collections import OrderedDict
 from flask_restx import Namespace, Resource, fields
 from werkzeug.datastructures import FileStorage
-import json
 
 movies = Namespace('Movies', description='Movies related operations', path='/movies')
 
@@ -252,11 +251,14 @@ class MoviesActions(Resource):
         if repr(type(before_actions(movie_id))) == "<class 'flask.wrappers.Response'>":
             return before_actions(movie_id)
         movie = before_actions(movie_id)
-        db.session.delete(movie)
-        db.session.commit()
-        extra.info(f"User deleted movie {movie}", extra={"user": current_user})
-        return {}, HTTP_204_NO_CONTENT
-
+        try:
+            db.session.delete(movie)
+            db.session.commit()
+            extra.info(f"User deleted movie {movie}", extra={"user": current_user})
+            return {}, HTTP_204_NO_CONTENT
+        except:
+            db.session.rollback()
+            abort(HTTP_500_INTERNAL_SERVER_ERROR, "Something is broken")
 
 @movies.route('/', doc={"description": 'Searching movies in database'})
 class SearchMovies(Resource):

@@ -1,7 +1,7 @@
 import pytest
 from .conftest import admin_user, ordinary_user_1, ordinary_user_2, not_user
-from filmoteque.models import Movies
-from filmoteque import db
+from api.filmoteque import Movies
+from api.filmoteque import db
 
 
 

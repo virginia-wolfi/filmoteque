@@ -1,10 +1,10 @@
 from flask import request, abort
-from filmoteque.constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, \
-    HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_409_CONFLICT
+from .constants.http_status_codes import HTTP_200_OK, HTTP_201_CREATED, \
+    HTTP_400_BAD_REQUEST, HTTP_401_UNAUTHORIZED, HTTP_409_CONFLICT, HTTP_500_INTERNAL_SERVER_ERROR
 from werkzeug.security import check_password_hash, generate_password_hash
 import validators
-from filmoteque.models import Users
-from filmoteque.extentions import db, api, extra
+from .models import Users
+from .extentions import db, api, extra
 from flask_login import login_user, login_required, logout_user, current_user
 from sqlalchemy import insert
 from flask_restx import Namespace, Resource, fields
@@ -86,7 +86,7 @@ class Registration(Resource):
             return user, HTTP_201_CREATED
         except:
             db.session.rollback()
-            return abort(HTTP_409_CONFLICT, "Ошибка добавления в БД")
+            abort(HTTP_500_INTERNAL_SERVER_ERROR, "Something is broken")
 
 
 @users.route('/profile', doc={"description": 'User profile'})

@@ -1,7 +1,7 @@
 from werkzeug.security import generate_password_hash
 import pytest
-from filmoteque import db
-from filmoteque.models import Users
+from api.filmoteque import db
+from api.filmoteque import Users
 from flask import session
 from .conftest import admin_user
 psw = '123456'

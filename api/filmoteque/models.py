@@ -1,4 +1,4 @@
-from filmoteque.extentions import db
+from .extentions import db
 from datetime import datetime
 from flask_login import UserMixin
 
