@@ -1,9 +1,0 @@
-[March 28, 2023 20:14:45 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
-[March 29, 2023 12:54:51 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
-[March 29, 2023 13:53:23 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
-[March 29, 2023 13:53:29 EEST] INFO | auth >>> User logged in >>> User: <Users 3>
-[March 29, 2023 15:40:52 UTC] INFO | auth >>> User logged in >>> User: <Users 3>
-[March 29, 2023 17:51:17 UTC] INFO | movies >>> User added director Andrew Niccol >>> User: <Users 3>
-[March 29, 2023 17:51:21 UTC] INFO | movies >>> User added director Andrew Niccol >>> User: <Users 3>
-[March 29, 2023 17:51:21 UTC] INFO | movies >>> User added movie <Movies 93> >>> User: <Users 3>
-[March 31, 2023 10:32:16 UTC] INFO | auth >>> User logged in >>> User: <Users 3>
