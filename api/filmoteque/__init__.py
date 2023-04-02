@@ -16,8 +16,8 @@ api.add_namespace(ns2)
 def create_app(object=DevelopmentConfig()):
     app = Flask(__name__)
     app.config.from_object(object)
-    if os.getenv('DATABASE_URL'):
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')
+    if os.getenv("DATABASE_URL"):
+        app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
     app.json.sort_keys = False
     app.json.ensure_ascii = False
     db.init_app(app)
@@ -30,11 +30,8 @@ def create_app(object=DevelopmentConfig()):
     def unauthorized():
         return abort(HTTP_401_UNAUTHORIZED, "Log in to view this page")
 
-
     login_manager.init_app(app)
     app.register_blueprint(api_1)
     app.register_blueprint(bp)
 
-
     return app
-

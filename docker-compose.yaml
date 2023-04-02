@@ -4,7 +4,7 @@ services:
     build: ./api
     container_name: backend-flask
     environment:
-      - FLASK_ENV=development
+      - FLASK_DEBUG=true
       - PYTHONUNBUFFERED=True
       - DATABASE_URL=postgresql://postgres:mypassword@db:5432/docker_filmoteque
     restart: on-failure
@@ -35,7 +35,7 @@ services:
   nginx:
     build: ./nginx
     ports:
-      - 80:80
+      - 8080:80
     depends_on:
       - flask-app
       - pgadmin

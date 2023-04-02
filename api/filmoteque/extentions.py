@@ -45,17 +45,22 @@ dictConfig(
 extra = logging.getLogger("extra")
 
 db = SQLAlchemy()
-blueprint = Blueprint('api', __name__, url_prefix='/api')
+blueprint = Blueprint("api", __name__, url_prefix="/api")
 
-
-api = Api(blueprint,
-    title='Filmoteque',
-    version='1.0',
-    description='This is application for operating with filmoteque')
+api = Api(
+    blueprint,
+    title="Filmoteque",
+    version="1.0",
+    description="This is API for managing the movie collection.",
+)
 
 login_manager = LoginManager()
 
 
 def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1].lower() in {'pdf', 'png', 'jpg', 'jpeg'}
+    return "." in filename and filename.rsplit(".", 1)[1].lower() in {
+        "pdf",
+        "png",
+        "jpg",
+        "jpeg",
+    }
