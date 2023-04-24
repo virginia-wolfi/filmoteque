@@ -1,33 +1,17 @@
-from werkzeug.security import generate_password_hash
 import pytest
-from api.filmoteque import db
-from api.filmoteque import Users
+from api.filmoteque import UserModel
 from flask import session
-from .conftest import admin_user
-
-psw = "123456"
-pwd_hash = generate_password_hash(psw)
+from .helper.insertion_data import admin_user, ordinary_user_1
+from .helper.parameters import (
+    user_registration_params,
+    user_login_validation_params,
+)
 
 
 @pytest.mark.parametrize(
-    ("nickname", "email", "psw", "status_code", "message"),
-    (
-        ("user1", "user1@gmail.com", psw, 201, b"User created"),
-        ("user1", "user1111@gmail.com", psw, 409, b"Nickname is taken"),
-        ("user111", "user1@gmail.com", psw, 409, b"Email is taken"),
-        ("user*_", "user1@gmail.com", psw, 400, b"Nickname should be alphanumeric"),
-        ("", "user1@gmail.com", psw, 400, b"Nickname must be 3 or more characters"),
-        (
-            "user111",
-            "user1111@gmail.com",
-            "",
-            400,
-            b"Password must be 6 characters or more",
-        ),
-        ("user111", "user@gmail@com", psw, 400, b"Email is not valid"),
-    ),
+    ("nickname", "email", "psw", "status_code", "message"), user_registration_params
 )
-def test_registation(client, app, nickname, email, psw, status_code, message):
+def test_registration(client, app, nickname, email, psw, status_code, message):
     response = client.post(
         "/api/registration", json=({"nickname": nickname, "email": email, "psw": psw})
     )
@@ -35,27 +19,15 @@ def test_registation(client, app, nickname, email, psw, status_code, message):
     if status_code == 201:
         with app.app_context():
             user_id = response.json["User created"]["id"]
-            assert db.session.get(Users, user_id) is not None
+            assert UserModel.find_by_id(user_id) is not None
     assert message in response.data
-
-
-def test_login(client, auth):
-    response = auth.login(*admin_user)
-    assert response.status_code == 200
-    with client:
-        client.get("/api/profile")
-        assert session["_user_id"] == "3"
 
 
 @pytest.mark.parametrize(
     ("email", "psw", "status_code", "message"),
-    (
-        ("1@gmail.com", psw, 401, b"Wrong credentials"),
-        ("user1@gmail.com", "1234", 401, b"Wrong credentials"),
-        ("user1@gmail.com", psw, 200, b"User logged in"),
-    ),
+    user_login_validation_params,
 )
-def test_login_validate_input(auth, email, psw, status_code, message, app):
+def test_login(auth, client, email, psw, status_code, message, app):
     response = auth.login(email, psw)
     assert response.status_code == status_code
     assert message in response.data
@@ -64,21 +36,34 @@ def test_login_validate_input(auth, email, psw, status_code, message, app):
 def test_profile(auth, client):
     auth.login(*admin_user)
     with client:
-        response = client.get("/api/profile")
+        response = client.get("/api/users/3")
         assert session["_user_id"] == "3"
         assert response.status_code == 200
+
+        response = client.get("/api/users/0")
+        assert response.status_code == 404
+        assert b"User not found" in response.data
+
+    auth.logout()
     with client:
-        auth.logout()
-        response = client.get("/api/profile")
+        response = client.get("/api/users/3")
         assert response.status_code == 401
         assert b"Log in to view this page" in response.data
+
+    auth.login(*ordinary_user_1)
+    with client:
+        response = client.get("/api/users/3")
+        assert session["_user_id"] == "1"
+        assert response.status_code == 403
+        assert b"Access is not allowed" in response.data
 
 
 def test_profile_unauthorized(client):
     with client:
-        response = client.get("/api/profile")
+        response = client.get("/api/users/3")
         assert "_user_id" not in session
         assert response.status_code == 401
+        assert b"Log in to view this page" in response.data
 
 
 def test_logout(client, auth):
@@ -87,6 +72,7 @@ def test_logout(client, auth):
         response = auth.logout()
         assert "_user_id" not in session
         assert response.status_code == 200
+        assert b"User logged out" in response.data
 
 
 def test_logout_unathorized(client, auth):
@@ -94,3 +80,4 @@ def test_logout_unathorized(client, auth):
         response = auth.logout()
         assert "_user_id" not in session
         assert response.status_code == 401
+        assert b"Log in to view this page" in response.data

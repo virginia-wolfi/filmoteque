@@ -98,6 +98,11 @@ from project root:
 $ docker compose -f docker-compose.yaml build
 
 $ docker compose up
+
+$ docker exec backend-flask flask commands create_db
+
+$ docker exec backend-flask flask commands insert_db
+
 ```
 access to document page:
 `http://your_host-ip_or_localhost:8080/api/`

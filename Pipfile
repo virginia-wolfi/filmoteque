@@ -17,8 +17,6 @@ setuptools = "*"
 python-dotenv = "*"
 gunicorn = "*"
 
-
-
 [dev-packages]
 pytest = "*"
 black = "*"
