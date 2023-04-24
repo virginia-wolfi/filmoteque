@@ -10,7 +10,7 @@ Main libraries used:
 
 ## Installation
 ### Git Clone 
-```git clone https://github.com/virginia-wolfi/filmoteque.git```
+```git clone https://github.com/virginia-wolfi/movie_collection.git```
 
 Install with pipenv:
 
