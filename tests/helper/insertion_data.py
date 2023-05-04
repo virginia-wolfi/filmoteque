@@ -5,7 +5,7 @@ ordinary_user_2 = ("user_2@gmail.com", psw)
 not_user = ("no_email", "no_psw")
 
 
-movies_list = (
+movies_data = (
     {
         "title": "Pulp Fiction",
         "year": 1994,
@@ -20,7 +20,13 @@ movies_list = (
         "rate": 8.4,
         "user_id": 1,
     },
-    {"title": "Parasite", "year": 2019, "director_id": 2, "rate": 8.5, "user_id": 1},
+    {
+        "title": "Parasite",
+        "year": 2019,
+        "director_id": 2,
+        "rate": 8.5,
+        "user_id": 1,
+    },
     {
         "title": "Memories of Murder",
         "year": 2003,
@@ -56,8 +62,20 @@ movies_list = (
         "rate": 8.4,
         "user_id": 1,
     },
-    {"title": "The Shining", "year": 1980, "director_id": 4, "rate": 8.4, "user_id": 1},
-    {"title": "Fargo", "year": 1996, "director_id": 5, "rate": 8.1, "user_id": 1},
+    {
+        "title": "The Shining",
+        "year": 1980,
+        "director_id": 4,
+        "rate": 8.4,
+        "user_id": 1,
+    },
+    {
+        "title": "Fargo",
+        "year": 1996,
+        "director_id": 5,
+        "rate": 8.1,
+        "user_id": 1,
+    },
     {
         "title": "No Country for Old Men",
         "year": 2007,
@@ -86,11 +104,23 @@ movies_list = (
         "rate": 7.7,
         "user_id": 1,
     },
-    {"title": "Loro", "year": 2018, "director_id": 7, "rate": 6.7, "user_id": 1},
-    {"title": "Youth", "year": 2015, "director_id": 7, "rate": 7.3, "user_id": 1},
+    {
+        "title": "Loro",
+        "year": 2018,
+        "director_id": 7,
+        "rate": 6.7,
+        "user_id": 1,
+    },
+    {
+        "title": "Youth",
+        "year": 2015,
+        "director_id": 7,
+        "rate": 7.3,
+        "user_id": 1,
+    },
 )
 
-movies_genres_list = (
+movies_genres_data = (
     {"genre_id": 6, "movie_id": 1},
     {"genre_id": 5, "movie_id": 1},
     {"genre_id": 8, "movie_id": 2},

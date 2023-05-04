@@ -1,4 +1,4 @@
-from ..extentions import db
+from ..db import db
 
 
 class DirectorModel(db.Model):
@@ -9,7 +9,7 @@ class DirectorModel(db.Model):
     info = db.Column(db.Text, nullable=True)
     movies = db.relationship("MovieModel", backref="director")
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<Directors {self.id}>"
 
     @classmethod
@@ -18,8 +18,4 @@ class DirectorModel(db.Model):
 
     def save_to_db(self) -> None:
         db.session.add(self)
-        db.session.commit()
-
-    def delete_from_db(self) -> None:
-        db.session.delete(self)
         db.session.commit()

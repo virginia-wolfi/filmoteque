@@ -1,21 +1,18 @@
-from flask import Flask
 import os
+from flask import Flask
 
-from .models.user import UserModel
-from .models.movie import MovieModel, movies_genres
-from .models.director import DirectorModel
-from .models.genre import GenreModel
-from .models.role import RoleModel
-from .cli import bp
-from .config import *
-from .apis import blueprint as api1
 from flask import abort
-from .extentions import db, login_manager
+from .models.user import UserModel
+from .cli import bp
+from .config import DevelopmentConfig
+from .apis import blueprint as api1
+from .db import db
+from .lm import login_manager
 
 
-def create_app(object=DevelopmentConfig()):
+def create_app(config_obj=DevelopmentConfig()):
     app = Flask(__name__)
-    app.config.from_object(object)
+    app.config.from_object(config_obj)
     if os.getenv("DATABASE_URL"):
         app.config["SQLALCHEMY_DATABASE_URI"] = os.getenv("DATABASE_URL")
     app.json.sort_keys = False

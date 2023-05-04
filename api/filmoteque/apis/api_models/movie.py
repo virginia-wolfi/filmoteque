@@ -15,10 +15,16 @@ add_movie_model = Model(
             example=1997,
         ),
         "director": fields.String(
-            required=True, description="Movie's director", example="Andrew Niccol"
+            required=True,
+            description="Movie's director",
+            example="Andrew Niccol",
         ),
         "rate": fields.Float(
-            required=True, description="Movie's rate", min=0, max=10, example=7.8
+            required=True,
+            description="Movie's rate",
+            min=0,
+            max=10,
+            example=7.8,
         ),
         "description": fields.String(
             description="Movie's description",
@@ -36,9 +42,14 @@ edit_movie_model = Model(
             description="Movies' title", example="Full Metal Jacket"
         ),
         "year": fields.Integer(
-            description="Movies' release year", min=1900, max=2025, example=1987
+            description="Movies' release year",
+            min=1900,
+            max=2025,
+            example=1987,
         ),
-        "rate": fields.Float(description="Movies' rate", min=0, max=10, example=8.5),
+        "rate": fields.Float(
+            description="Movies' rate", min=0, max=10, example=8.5
+        ),
     },
 )
 

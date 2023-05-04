@@ -1,8 +1,9 @@
 from werkzeug.security import generate_password_hash
 
+
 psw_hash = generate_password_hash("123456")
 
-genre_names = [
+genre_names = (
     "action",
     "adventure",
     "animation",
@@ -29,9 +30,9 @@ genre_names = [
     "thriller",
     "war",
     "western",
-]
+)
 
-directors = [
+directors = (
     "Quentin Tarantino",
     "Bong Joon Ho",
     "Alejandro Gonzalez Inarritu",
@@ -51,12 +52,27 @@ directors = [
     "Kar-Wai Wong",
     "Sofia Coppola",
     "Tim Berton",
-]
+)
 
-users = [
-    {"nickname": "user_1", "email": "user_1@gmail.com", "psw": psw_hash,  "role_id": 1},
-    {"nickname": "user_2", "email": "user_2@gmail.com", "psw": psw_hash, "role_id": 1},
-    {"nickname": "admin", "email": "admin@gmail.com", "psw": psw_hash, "role_id": 2}
-]
+users = (
+    {
+        "nickname": "user_1",
+        "email": "user_1@gmail.com",
+        "psw": psw_hash,
+        "role_id": 1,
+    },
+    {
+        "nickname": "user_2",
+        "email": "user_2@gmail.com",
+        "psw": psw_hash,
+        "role_id": 1,
+    },
+    {
+        "nickname": "admin",
+        "email": "admin@gmail.com",
+        "psw": psw_hash,
+        "role_id": 2,
+    },
+)
 
-roles = [{"name": "user"}, {"name": "admin"}]
+roles = ({"name": "user"}, {"name": "admin"})

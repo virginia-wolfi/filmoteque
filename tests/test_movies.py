@@ -1,6 +1,6 @@
 import pytest
-from .conftest import admin_user, ordinary_user_1
-from api.filmoteque import MovieModel
+from .helper.insertion_data import admin_user, ordinary_user_1
+from api.filmoteque.models.movie import MovieModel
 from api.filmoteque import db
 from .helper.parameters import (
     movie_creation_params,
@@ -10,12 +10,22 @@ from .helper.parameters import (
     movie_creation_unauth_params,
     poster_upload_unath_params,
     poster_delete_params,
-    movie_delete_params
+    movie_delete_params,
 )
 
 
 @pytest.mark.parametrize(
-    ("title", "director", "rate", "year", "genre_1", "genre_2", "genre_3", "status_code", "message"),
+    (
+        "title",
+        "director",
+        "rate",
+        "year",
+        "genre_1",
+        "genre_2",
+        "genre_3",
+        "status_code",
+        "message",
+    ),
     movie_creation_params,
 )
 def test_movie_creation(
@@ -47,8 +57,18 @@ def test_movie_creation(
 
 
 @pytest.mark.parametrize(
-    ("title", "director", "rate", "year", "genre_1", "genre_2", "genre_3", "status_code", "message"),
-    movie_creation_unauth_params
+    (
+        "title",
+        "director",
+        "rate",
+        "year",
+        "genre_1",
+        "genre_2",
+        "genre_3",
+        "status_code",
+        "message",
+    ),
+    movie_creation_unauth_params,
 )
 def test_movie_creation_unathorized(
     client,
@@ -70,11 +90,12 @@ def test_movie_creation_unathorized(
 
 
 @pytest.mark.parametrize(
-    ("user", "status_code", "message"),
-    movie_delete_params
+    ("user", "status_code", "message"), movie_delete_params
 )
-def test_movie_delete(app, client, auth, movie, created_movie, user, status_code, message):
-    movie_id = created_movie
+def test_movie_delete(
+    app, client, auth, movie, create_movie, user, status_code, message
+):
+    movie_id = create_movie
     auth.login(*user)
     with client:
         response = movie.delete_movie(movie_id)
@@ -90,33 +111,48 @@ def test_movie_delete(app, client, auth, movie, created_movie, user, status_code
     movie_edit_params,
 )
 def test_movie_edit(
-    client, auth, movie, created_movie, user, query_string, json, status_code, message
+    client,
+    auth,
+    movie,
+    create_movie,
+    user,
+    query_string,
+    json,
+    status_code,
+    message,
 ):
-    movie_id = created_movie
+    movie_id = create_movie
     auth.login(*user)
     with client:
         response = movie.edit_movie(movie_id, query_string, json)
     assert response.status_code == status_code
     assert message in response.data
 
-def test_movie_get(
-    client, auth, movie, created_movie
-):
-    movie_id = created_movie
+
+def test_movie_get(client, auth, movie, create_movie):
+    movie_id = create_movie
     response = movie.get_movie(movie_id)
     assert response.status_code == 200
-    assert response.json['id'] == movie_id
+    assert response.json["id"] == movie_id
+
 
 @pytest.mark.parametrize(
-    ("file_part", "file_name", "status_code", "message"),
-    poster_upload_params
+    ("file_part", "file_name", "status_code", "message"), poster_upload_params
 )
 def test_poster_upload(
-    app, client, auth, movie, created_movie, file_part, file_name, status_code, message
+    app,
+    client,
+    auth,
+    movie,
+    create_movie,
+    file_part,
+    file_name,
+    status_code,
+    message,
 ):
     users = [admin_user, ordinary_user_1]
     for u in users:
-        movie_id = created_movie
+        movie_id = create_movie
         auth.login(*u)
         with client:
             response = movie.upload_poster(movie_id, file_part, file_name)
@@ -128,13 +164,12 @@ def test_poster_upload(
 
 
 @pytest.mark.parametrize(
-    ("user", "status_code", "message"),
-    poster_upload_unath_params
+    ("user", "status_code", "message"), poster_upload_unath_params
 )
 def test_poster_upload_unathorized(
-    app, client, auth, created_movie, movie, user, status_code, message
+    app, client, auth, create_movie, movie, user, status_code, message
 ):
-    movie_id = created_movie
+    movie_id = create_movie
     auth.login(*user)
     with client:
         response = movie.upload_poster(movie_id, "file", "poster.jpeg")
@@ -154,11 +189,12 @@ def test_poster_upload_not_exists(client, auth, app, movie):
 
 
 @pytest.mark.parametrize(
-    ("user", "status_code", "message"),
-    poster_delete_params
+    ("user", "status_code", "message"), poster_delete_params
 )
-def test_poster_delete(app, client, auth, movie, created_movie, user, status_code, message):
-    movie_id = created_movie
+def test_poster_delete(
+    app, client, auth, movie, create_movie, user, status_code, message
+):
+    movie_id = create_movie
     auth.login(*user)
     with client:
         response = movie.delete_poster(movie_id)
@@ -171,7 +207,7 @@ def test_poster_delete(app, client, auth, movie, created_movie, user, status_cod
 
 @pytest.mark.parametrize(
     ("query_string", "status_code", "response_data", "len_items"),
-    movie_search_params
+    movie_search_params,
 )
 def test_movie_search(
     movie, insert_data, query_string, status_code, response_data, len_items
@@ -194,4 +230,3 @@ def test_movie_search_orderby(movie, insert_data):
     assert response.status_code == 200
     assert list(response.json.values())[0]["title"] == "Eyes Wide Shut"
     assert list(response.json.values())[2]["title"] == "Full Metal Jacket"
-

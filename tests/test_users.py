@@ -9,11 +9,13 @@ from .helper.parameters import (
 
 
 @pytest.mark.parametrize(
-    ("nickname", "email", "psw", "status_code", "message"), user_registration_params
+    ("nickname", "email", "psw", "status_code", "message"),
+    user_registration_params,
 )
 def test_registration(client, app, nickname, email, psw, status_code, message):
     response = client.post(
-        "/api/registration", json=({"nickname": nickname, "email": email, "psw": psw})
+        "/api/registration",
+        json=({"nickname": nickname, "email": email, "psw": psw}),
     )
     assert response.status_code == status_code
     if status_code == 201:
