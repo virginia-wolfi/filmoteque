@@ -2,12 +2,12 @@ from ..models.genre import GenreModel
 from ..models.director import DirectorModel
 from ..models.movie import MovieModel
 from ..models.user import UserModel
-from ..extentions import extra, db
+from ..logging import extra
 from flask_login import current_user
 from flask import abort
 
 
-def genres_handler(genres: set[str]) -> list[GenreModel]:
+def handle_genres(genres: set[str]) -> list[GenreModel | None]:
     genres_list = []
     for g in genres:
         genre = GenreModel.find_by_name(g.lower())
@@ -17,8 +17,8 @@ def genres_handler(genres: set[str]) -> list[GenreModel]:
     return genres_list
 
 
-def director_handler(data: dict) -> DirectorModel | None:
-    director_name = data.get("director", None)
+def handle_director(input_fields: dict[str, ...]) -> DirectorModel | None:
+    director_name = input_fields.get("director", None)
     if not director_name:
         return
     director = DirectorModel.find_by_name(name=director_name)
@@ -29,7 +29,7 @@ def director_handler(data: dict) -> DirectorModel | None:
             f"User added director {director, director.name}",
             extra={"user": current_user},
         )
-    data.pop("director")
+    input_fields.pop("director")
     return director
 
 
@@ -44,8 +44,3 @@ def verify_movie(movie_id: int) -> MovieModel:
             "Only administrator or user who added the movie can make changes",
         )
     return movie
-
-
-def rollback() -> None:
-    db.session.rollback()
-    abort(500, "Something is broken")

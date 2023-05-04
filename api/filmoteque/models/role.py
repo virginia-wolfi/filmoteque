@@ -1,4 +1,4 @@
-from ..extentions import db
+from ..db import db
 
 
 class RoleModel(db.Model):

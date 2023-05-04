@@ -1,15 +1,12 @@
-import sys
-import os
-
-sys.path.append(os.getcwd())
 from sqlalchemy import insert
 import csv
-from .models.user import *
-from .models.movie import *
-from .models.director import *
-from .models.genre import *
-from .models.role import *
-from .database.insertion_data import *
+from .models.user import UserModel
+from .models.movie import MovieModel, movies_genres
+from .models.director import DirectorModel
+from .models.genre import GenreModel
+from .models.role import RoleModel
+from .database.insertion_data import genre_names, directors, users, roles
+from .db import db
 
 
 def insert_roles():

@@ -1,6 +1,6 @@
 from flask import Blueprint
 from .insert_setup import insert_all
-from .extentions import db
+from .db import db
 
 bp = Blueprint("commands", __name__)
 

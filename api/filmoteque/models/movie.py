@@ -1,4 +1,4 @@
-from ..extentions import db
+from ..db import db
 from sqlalchemy import update
 
 
@@ -8,7 +8,9 @@ class MovieModel(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False, unique=True)
     year = db.Column(
-        db.Integer, db.CheckConstraint("year between 1900 and 2025"), nullable=False
+        db.Integer,
+        db.CheckConstraint("year between 1900 and 2025"),
+        nullable=False,
     )
     director_id = db.Column(
         db.Integer, db.ForeignKey("directors.id", ondelete="SET NULL")
@@ -16,13 +18,17 @@ class MovieModel(db.Model):
     rate = db.Column(
         db.Float, db.CheckConstraint("rate between 0 and 10"), nullable=False
     )
-    user_id = db.Column(db.Integer, db.ForeignKey("users.id", ondelete="SET NULL"))
+    user_id = db.Column(
+        db.Integer, db.ForeignKey("users.id", ondelete="SET NULL")
+    )
     description = db.Column(db.Text, nullable=True)
     poster = db.Column(db.LargeBinary)
 
-    genres = db.relationship("GenreModel", secondary="movies_genres", backref="movies")
+    genres = db.relationship(
+        "GenreModel", secondary="movies_genres", backref="movies"
+    )
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<Movies {self.id}>"
 
     @classmethod
@@ -34,8 +40,10 @@ class MovieModel(db.Model):
         return cls.query.filter(cls.title.ilike(title)).first()
 
     @classmethod
-    def update_movie(cls, data: list, movie_id: int) -> None:
-        db.session.execute(update(cls).where(cls.id == movie_id).values(**data))
+    def update_movie(cls, update_data: dict[str, ...], movie_id: int) -> None:
+        db.session.execute(
+            update(cls).where(cls.id == movie_id).values(**update_data)
+        )
         db.session.commit()
 
     def save_to_db(self) -> None:

@@ -1,26 +1,38 @@
+from .pagination import paginate_query
 from ..models.genre import GenreModel
 from ..models.director import DirectorModel
 from ..models.movie import MovieModel, movies_genres
-from ..extentions import db
+from ..db import db
 from flask import abort
 from sqlalchemy import select, intersect, text
+from werkzeug.datastructures import MultiDict
+
+
+filters_titles = (
+    "title",
+    "director",
+    "genre_1",
+    "genre_2",
+    "genre_3",
+    "after_year",
+    "before_year",
+)
 
 
 class QueryHandler:
-    def __init__(self, select_query, data, filter_params):
-        self.select_query = select_query
-        self.data = data
-        self.filter_params = filter_params
-        self.page = data.get("page", 1, type=int)
-        self.per_page = data.get("per page", 10, type=int)
-        self.result = None
+    def __init__(self, filters: MultiDict[str, str]) -> None:
+        self.select_query = db.session.query(MovieModel)
+        self.filter_criteria = {}
+        self.filters = filters
+        self.page = int(filters.get("page", 1))
+        self.per_page = int(filters.get("per page", 10))
 
-    def pagination(self):
+    def apply_order_by(self) -> None:
         order_by_ = {}
-        if "rate" in self.data:
-            order_by_["rate"] = self.data.get("rate")
-        if "year" in self.data:
-            order_by_["year"] = self.data.get("year")
+        if "rate" in self.filters:
+            order_by_["rate"] = self.filters.get("rate")
+        if "year" in self.filters:
+            order_by_["year"] = self.filters.get("year")
         if order_by_:
             sort = [
                 (text(f"movies.{i} DESC"), text(f"movies.{i}"))[
@@ -29,50 +41,52 @@ class QueryHandler:
                 for i in order_by_
             ]
             self.select_query = self.select_query.order_by(*sort)
-        try:
-            self.result = self.select_query.paginate(
-                per_page=self.per_page, page=self.page
-            )
-        except:
-            abort(404, "No data to show")
 
-    def years_filter(self):
-        after_year = int(self.data.get("after year", 1900))
-        before_year = int(self.data.get("before year", 2025))
+    def handle_years_filters(self) -> None:
+        after_year = int(self.filters.get("after year", 1900))
+        before_year = int(self.filters.get("before year", 2025))
         if after_year > 2025:
             abort(400, "'after_year' field must be earlier than 2026")
         if before_year < 1900:
             abort(400, "'before_year' field value must be later than 1899")
-        filter_by_year = False if after_year == 1900 and before_year == 2025 else True
+        filter_by_year = (
+            False if after_year == 1900 and before_year == 2025 else True
+        )
         if filter_by_year:
             if after_year > before_year:
-                abort(400, "Check if the movie's release year range is correct")
-            self.filter_params["after year"] = after_year
-            self.filter_params["before year"] = before_year
-            self.filter_params["filter_by_year"] = True
+                abort(
+                    400, "Check if the movie's release year range is correct"
+                )
+            self.filter_criteria["after year"] = after_year
+            self.filter_criteria["before year"] = before_year
+            self.filter_criteria["filter_by_year"] = True
 
-    def filtering_query(self):
-        if not self.filter_params:
+    def construct_query(self) -> None:
+        if not self.filter_criteria:
             return
-        search_params = []
+        search = []
         all_ids = select(MovieModel.id)
         genres = [
-            self.filter_params.get(g)
+            self.filter_criteria.get(g)
             for g in ["genre_1", "genre_2", "genre_3"]
-            if self.filter_params.get(g, None)
+            if self.filter_criteria.get(g, None)
         ]
-        if "title" in self.filter_params:
+        if "title" in self.filter_criteria:
             sub_title = select(MovieModel.id).where(
-                MovieModel.title.icontains(self.filter_params["title"])
+                MovieModel.title.icontains(self.filter_criteria["title"])
             )
-            search_params.append(sub_title)
-        if "director" in self.filter_params:
+            search.append(sub_title)
+        if "director" in self.filter_criteria:
             sub_director = (
                 select(MovieModel.id)
                 .join(DirectorModel)
-                .where(DirectorModel.name.icontains(self.filter_params["director"]))
+                .where(
+                    DirectorModel.name.icontains(
+                        self.filter_criteria["director"]
+                    )
+                )
             )
-            search_params.append(sub_director)
+            search.append(sub_director)
         if genres:
             sub_genres = (
                 select(MovieModel.id)
@@ -80,26 +94,29 @@ class QueryHandler:
                 .join(GenreModel)
                 .where(GenreModel.name.in_(genres))
             )
-            search_params.append(sub_genres)
-        if "filter_by_year" in self.filter_params:
+            search.append(sub_genres)
+        if "filter_by_year" in self.filter_criteria:
             sub_year = select(MovieModel.id).where(
                 MovieModel.year.between(
-                    self.filter_params["after year"], self.filter_params["before year"]
+                    self.filter_criteria["after year"],
+                    self.filter_criteria["before year"],
                 )
             )
-            search_params.append(sub_year)
-        ints = intersect(all_ids, *search_params).subquery()
+            search.append(sub_year)
+        ints = intersect(all_ids, *search).subquery()
         self.select_query = db.session.query(MovieModel).join(
             ints, ints.c.id == MovieModel.id
         )
 
 
-def query_handler(data, select_query):
-    search_handler = QueryHandler(select_query, data, {})
-    for i in ("title", "director", "genre_1", "genre_2", "genre_3"):
-        if data.get(i, None):
-            search_handler.filter_params[i] = data.get(i)
-    search_handler.years_filter()
-    search_handler.filtering_query()
-    search_handler.pagination()
-    return search_handler.result
+def handle_query(filters: MultiDict[str, str]) -> list[MovieModel]:
+    query_handler = QueryHandler(filters)
+    for title in filters_titles:
+        if filters.get(title, None):
+            query_handler.filter_criteria[title] = filters.get(title)
+    query_handler.handle_years_filters()
+    query_handler.construct_query()
+    query_handler.apply_order_by()
+    return paginate_query(
+        query_handler.select_query, query_handler.per_page, query_handler.page
+    )

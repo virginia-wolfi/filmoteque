@@ -6,15 +6,17 @@ class Config(object):
 
 
 class DevelopmentConfig(Config):
+    # create database in Postgres and insert
+    # your database URI for development config
     SQLALCHEMY_DATABASE_URI = (
-        "postgresql+psycopg2://postgres:password@localhost/film_collection"  #create database in Postgres and insert
-                                                                            # your database URI for development config
+        "postgresql+psycopg2://postgres:8066@localhost/film_collection"
     )
 
 
 class TestingConfig(Config):
+    # create database in Postgres and
+    # insert your database URI for testing config
     SQLALCHEMY_DATABASE_URI = (
-        "postgresql+psycopg2://postgres:password@localhost/film_collection_test" #create database in Postgres and
-                                                                        # insert your database URI for testing config
+        "postgresql+psycopg2://postgres:8066@localhost/film_collection_test"
     )
     TESTING = True

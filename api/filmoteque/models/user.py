@@ -1,4 +1,4 @@
-from ..extentions import db
+from ..db import db
 from datetime import datetime
 from flask_login import UserMixin
 
@@ -14,7 +14,7 @@ class UserModel(UserMixin, db.Model):
     role_id = db.Column(db.Integer, db.ForeignKey("roles.id"))
     movies = db.relationship("MovieModel", backref="user")
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"<Users {self.id}>"
 
     @classmethod

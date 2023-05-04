@@ -21,6 +21,12 @@ gunicorn = "*"
 pytest = "*"
 black = "*"
 pytest-cov = "*"
+flake8 = "*"
+pep8-naming = "*"
+flake8-pytest = "*"
+flake8-annotations-coverage = "*"
+flake8-bandit = "*"
+
 
 [requires]
 python_version = "3.10"

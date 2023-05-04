@@ -1,15 +1,30 @@
-from flask import jsonify, make_response
-from flask_login import login_required
+from flask import jsonify, make_response, request, abort
+from flask_login import login_required, current_user
 from collections import OrderedDict
 from flask_restx import Namespace, Resource, marshal
-from .api_models.movie import *
-from .parsers import *
-from ..handlers.movie_handler import *
-from ..handlers.movie_browse import *
-from ..handlers.movie_fields import *
+from .api_models.movie import add_movie_model, edit_movie_model, movie_model
+from .parsers import upload_parser, genres_parser, movies_parser
+from ..handlers import rollback
+from ..handlers.movie_handler import (
+    handle_genres,
+    handle_director,
+    verify_movie,
+)
+from ..handlers.movie_browse import handle_query
+from ..handlers.movie_fields import (
+    check_post_data,
+    check_patch_data,
+    verify_poster,
+)
 from ..models.movie import MovieModel
+from psycopg2 import OperationalError
+from ..db import db
+from ..logging import extra
 
-movies = Namespace("Movies", description="Movies related operations", path="/movies")
+
+movies = Namespace(
+    "Movies", description="Movies related operations", path="/movies"
+)
 
 
 class MovieCreation(Resource):
@@ -23,22 +38,23 @@ class MovieCreation(Resource):
     @login_required
     def post(self):
         """Adds movie to the movie collection"""
-        data = request.get_json()
+        input_fields = request.get_json()
         genres_names = set(request.args.values())
-        genres = genres_handler(genres_names)
-        check_fields(data, genres)
-        director = director_handler(data)
-        movie = MovieModel(**data)
+        genres = handle_genres(genres_names)
+        check_post_data(input_fields, genres)
+        director = handle_director(input_fields)
+        movie = MovieModel(**input_fields)
         movie.genres = genres
         movie.director_id = director.id
         movie.user_id = int(current_user.get_id())
         try:
             movie.save_to_db()
             extra.info(
-                f"User added movie {movie, movie.title}", extra={"user": current_user}
+                f"User added movie {movie, movie.title}",
+                extra={"user": current_user},
             )
             return movie, 201
-        except:
+        except OperationalError:
             rollback()
 
 
@@ -51,11 +67,11 @@ class MoviePoster(Resource):
     @movies.response(401, "User not authorized")
     @movies.expect(upload_parser)
     @login_required
-    def post(self, movie_id):
+    def post(self, movie_id: int):
         """Uploads poster to an existing movie"""
         movie = verify_movie(movie_id)
-        data = request.files
-        movie.poster = poster_image(data)
+        attachment = request.files
+        movie.poster = verify_poster(attachment)
         try:
             db.session.commit()
             extra.info(
@@ -64,11 +80,14 @@ class MoviePoster(Resource):
             )
             return make_response(
                 jsonify(
-                    {"message": "Movie poster added", "movie": f"{movie, movie.title}"}
+                    {
+                        "message": "Movie poster added",
+                        "movie": f"{movie, movie.title}",
+                    }
                 ),
                 201,
             )
-        except:
+        except OperationalError:
             rollback()
 
     @movies.response(204, "Poster was deleted")
@@ -76,7 +95,7 @@ class MoviePoster(Resource):
     @movies.response(404, "The movie does not exist")
     @movies.response(401, "User not authorized")
     @login_required
-    def delete(self, movie_id):
+    def delete(self, movie_id: int):
         """Deletes poster from an existing movie"""
         movie = verify_movie(movie_id)
         movie.poster = None
@@ -93,7 +112,7 @@ class Movie(Resource):
     @movies.response(200, "Success")
     @movies.response(404, "The movie does not exist")
     @movies.marshal_with(movie_model)
-    def get(self, movie_id):
+    def get(self, movie_id: int):
         """Fetches movie by provided id"""
         movie = MovieModel.find_by_id(movie_id)
         if not movie:
@@ -107,43 +126,45 @@ class Movie(Resource):
     @movies.expect(edit_movie_model, genres_parser)
     @movies.marshal_with(movie_model, envelope="Movie data updated")
     @login_required
-    def patch(self, movie_id):
+    def patch(self, movie_id: int):
         """Updates an existing movie with fields"""
         movie = verify_movie(movie_id)
-        genres = genres_handler(set(request.args.values()))
-        data = request.get_json()
-        check_fields_patch(data, genres, movie)
-        director = director_handler(data)
-        if director:
-            data["director_id"] = director.id
-        if data:
-            MovieModel.update_movie(data, movie_id)
+        genres = handle_genres(set(request.args.values()))
+        input_fields = request.get_json()
+        check_patch_data(input_fields, genres, movie)
+        director = handle_director(input_fields)
+        if input_fields:
+            MovieModel.update_movie(input_fields, movie_id)
         if genres:
             movie.genres = genres
+        if director:
+            movie.director_id = director.id
         try:
             db.session.commit()
             extra.info(
-                f"User edited movie {movie, movie.title}: {request.json if request.json else ''},"
+                f"User edited movie {movie, movie.title}: "
+                f"{request.json if request.json else ''},"
                 f" {request.args.values() if genres else ''}",
                 extra={"user": current_user},
             )
             return movie, 200
-        except:
+        except OperationalError:
             rollback()
 
     @movies.response(204, "Movie was deleted")
     @movies.response(403, "Access is not allowed")
     @login_required
-    def delete(self, movie_id):
+    def delete(self, movie_id: int):
         """Deletes an existing movie"""
         movie = verify_movie(movie_id)
         try:
             movie.delete_from_db()
             extra.info(
-                f"User deleted movie {movie, movie.title}", extra={"user": current_user}
+                f"User deleted movie {movie, movie.title}",
+                extra={"user": current_user},
             )
             return {}, 204
-        except:
+        except OperationalError:
             rollback()
 
 
@@ -154,13 +175,11 @@ class MovieBrowse(Resource):
     @movies.expect(movies_parser, genres_parser)
     def get(self):
         """Fetches movies by provided filtering and sorting options"""
-        data = request.args
-        select_query = db.session.query(MovieModel)
-        result = query_handler(data, select_query)
+        filters = request.args
+        movies_slice = handle_query(filters)
         output = OrderedDict()
-        for movie in result:
+        for movie in movies_slice:
             output[str(movie)] = marshal(movie, movie_model)
         if not output:
             abort(404, "No data to show")
         return make_response(jsonify(output), 200)
-

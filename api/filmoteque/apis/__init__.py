@@ -1,9 +1,10 @@
 from flask_restx import Api
 from flask import Blueprint
-from .user import *
-from .movie import *
-from .api_models.user import *
-from .api_models.movie import *
+from .user import users, UserLogin, UserLogout, UserRegister, UserProfile
+from .movie import movies, MovieCreation, MoviePoster, Movie, MovieBrowse
+from .api_models.user import registration_fields, login_fields, user_model
+from .api_models.movie import add_movie_model, edit_movie_model, movie_model
+
 
 blueprint = Blueprint("api", __name__, url_prefix="/api")
 api = Api(
